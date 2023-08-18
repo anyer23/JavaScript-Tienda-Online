@@ -1,14 +1,17 @@
+
 //variables
 const carrito = document.querySelector('#carrito');
 const contenedorCarrito = document.querySelector('#lista-carrito tbody');
-const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
-const listaCurso = document.querySelector('#lista-curso');
+const vaciarCarritoBtn  = document.querySelector('#vaciar-carrito');
+const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
+
+cargarEventListeners();
 
 //funciones
 function cargarEventListeners() {
     //agrego un curso con el boton agregar al carrito
-    listaCurso.addEventListener('click' , agregarCurso);
+    listaCursos.addEventListener('click' , agregarCurso);
 
     //eliminar curso del carrito
     carrito.addEventListener('click' , eliminarCurso);
@@ -17,12 +20,15 @@ function cargarEventListeners() {
     vaciarCarritoBtn.addEventListener('click' , vaciarCarrito);   
 }
 
+
+
+
 //funcion que añade el curso al carrito
 function agregarCurso(e) {
    e.preventDefault(); 
 
    //condicion para agregar carrito
-   if (e.target.classList.contains('agregar-Carrito')) {
+   if (e.target.classList.contains('agregar-carrito')) {
         const cursoSeleccionado = e.target.parentElement.parentElement;
 
         //enviamos el curso selecionado para tomar sus datos
@@ -88,19 +94,28 @@ function carritoHtml() {
 
     //recorre el carrito y genera el html 
     articulosCarrito.forEach(cursoSeleccionado => {
-        const {imagen , titulo, precio , cantidad , id }=cursoSeleccionado
+        const {imagen , titulo, precio , cantidad , id }=cursoSeleccionado;
         const row = document.createElement('tr');
         row.innerHTML = ` 
             <td><img src="${imagen}" width=60></td>
-            <td>"${titulo}"</td>
-            <td>"${precio}"</td>
-            <td>"${cantidad}"</td>
+            <td>${titulo}</td>
+            <td>${precio}</td>
+            <td>${cantidad}</td>
             <td><a href="#" class="borrar-curso" data-id="${id}" >X</a></td>
          `;
 
          //agrego el HTML delcarrito en nuestro tbody
          contenedorCarrito.appendChild(row);
     })
+}
+
+//Elimina los cursos del Tdody
+
+function limpiarHtml() {
+
+    while (contenedorCarrito.firstChild) {
+        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
+    }
 }
 
 //elimina los cursos del carrito en DOM
